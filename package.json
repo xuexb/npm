@@ -1,0 +1,20 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "内网 npm 源",
+  "scripts": {
+    "start": "bash start.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xuexb/npm.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "xuexb <fe.xiaowu@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "sinopia": "^1.4.0"
+  }
+}

@@ -1,0 +1,94 @@
+# path to a directory with all packages
+storage: ./storage
+
+# a list of users
+#
+# This could be deprecated soon, use auth plugins instead (see htpasswd below).
+users:
+  admin:
+    # crypto.createHash('sha1').update(pass).digest('hex')
+    # xuexb
+    password: 1fee8badf41912fa8f70b3da5dc4f6e8eb2d5d1d
+
+web:
+  # web interface is disabled by default in 0.x, will be enabled soon in 1.x
+  # when all its issues will be fixed
+  #
+  # set this to `true` if you want to experiment with web ui now;
+  # this has a lot of issues, e.g. no auth yet, so use at your own risk
+  #enable: true
+
+  title: "npm 私有源"
+  # logo: logo.png
+  # template: custom.hbs
+
+auth:
+  htpasswd:
+    file: ./htpasswd
+    # Maximum amount of users allowed to register, defaults to "+inf".
+    # You can set this to -1 to disable registration.
+    #max_users: 1000
+
+# a list of other known repositories we can talk to
+uplinks:
+  npmjs:
+    # 使用 cnpm 源
+    url: https://registry.npm.taobao.org
+
+    # amount of time to wait for repository to respond
+    # before giving up and use the local cached copy
+    #timeout: 30s
+
+    # maximum time in which data is considered up to date
+    #
+    # default is 2 minutes, so server won't request the same data from
+    # uplink if a similar request was made less than 2 minutes ago
+    #maxage: 2m
+
+    # if two subsequent requests fail, no further requests will be sent to
+    # this uplink for five minutes
+    #max_fails: 2
+    #fail_timeout: 5m
+
+    # timeouts are defined in the same way as nginx, see:
+    # http://wiki.nginx.org/ConfigNotation
+
+packages:
+  '@fe/*':
+    # scoped packages
+    access: $all
+    publish: $authenticated
+
+  '@*/*':
+    access: $all
+    # publish: $authenticated
+    proxy: npmjs
+
+  '*':
+    # allow all users (including non-authenticated users) to read and
+    # publish all packages
+    #
+    # you can specify usernames/groupnames (depending on your auth plugin)
+    # and three keywords: "$all", "$anonymous", "$authenticated"
+    access: $all
+
+    # allow all known users to publish packages
+    # (anyone can register by default, remember?)
+    # publish: $authenticated
+
+    # if package is not available locally, proxy requests to 'npmjs' registry
+    proxy: npmjs
+
+#####################################################################
+# Advanced settings
+#####################################################################
+
+# if you use nginx with custom path, use this to override links
+#url_prefix: https://npm.registry.xuexb.com/
+
+# log settings
+logs:
+  - {type: stdout, format: pretty, level: http}
+  #- {type: file, path: sinopia.log, level: info}
+
+listen: 0.0.0.0:8110
