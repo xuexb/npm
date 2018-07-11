@@ -84,7 +84,7 @@ packages:
 #####################################################################
 
 # if you use nginx with custom path, use this to override links
-#url_prefix: https://npm.registry.xuexb.com/
+url_prefix: https://npm.registry.xuexb.com/
 
 # log settings
 logs:
